@@ -4,7 +4,7 @@ import ManagerRoute from "./componants/ManagerRoute";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const backgroundStyle = {
-    backgroundImage: "url('/image/img.png')",
+    backgroundImage: "url('/image/backGround.png')",
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",

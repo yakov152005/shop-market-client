@@ -5,6 +5,15 @@ const API_ADD_CARD = "/addCardItem";
 const API_GET_ALL_CARDS = "/getAllDetails";
 const API_GET_HOW_MANY_ITEMS = "/getHowManyItemsInTheCart";
 
-const MAX_PRICE = 1000;
+const NAV_HOME = "/homePage";
+const NAV_MARKET = "/marketPage";
+const NAV_CART = "/shoppingCartPage";
 
-export {URL_API,MAX_PRICE, API_ADD_CARD, API_GET_ALL_CARDS, API_SERVER, API_GET_HOW_MANY_ITEMS};
+const MAX_PRICE = 300;
+
+export {
+    URL_API,
+    MAX_PRICE
+    , API_ADD_CARD, API_GET_ALL_CARDS, API_SERVER, API_GET_HOW_MANY_ITEMS,
+    NAV_HOME, NAV_MARKET, NAV_CART,
+};

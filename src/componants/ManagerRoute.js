@@ -1,12 +1,32 @@
 import {Route, Routes, useNavigate} from "react-router-dom";
-import MarketPage from "./MarketPage";
-import ShoppingCartPage from "./ShoppingCartPage";
-import {useState} from "react";
+import MarketPage from "../page/MarketPage";
+import ShoppingCartPage from "../page/ShoppingCartPage";
+import {useEffect, useState} from "react";
+import HomePage from "../page/HomePage";
+import {API_GET_HOW_MANY_ITEMS, API_SERVER, NAV_CART, NAV_HOME, NAV_MARKET} from "../constants/Constant";
+import axios from "axios";
 
 
 export default function ManagerRoute() {
     const navigate = useNavigate();
     const [item, setItem] = useState(0);
+    const [size,setSize] = useState(0);
+
+    useEffect(()=> {
+        const fetchSizeMarket = async () => {
+            try {
+                const response = await axios.get(API_SERVER + API_GET_HOW_MANY_ITEMS);
+                if (response.data.success){
+                    const sizeData = parseInt(response.data.error);
+                    setSize(sizeData);
+                    setItem(sizeData);
+                }
+            }catch (error){
+                console.error("Error to fetch data",error);
+            }
+        }
+        fetchSizeMarket();
+    },[]);
 
     const incrementItem = (items) => {
         setItem((prevItem) => prevItem + items);
@@ -14,7 +34,7 @@ export default function ManagerRoute() {
 
 
     const backgroundStyle = {
-        backgroundImage: "url('/image/img.png')",
+        backgroundImage: "url('/image/backGround.png')",
         backgroundSize: "contain",
         backgroundPosition: "top center",
         backgroundRepeat: "repeat-y",
@@ -45,11 +65,28 @@ export default function ManagerRoute() {
 
                     </div>
 
+
                     <div>
                         <button type="button"
                                 className="btn btn-primary"
                                 onClick={() => {
-                                    navigate("/marketPage")
+                                    navigate(NAV_HOME)
+                                }}>Home
+                            <br/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 className="bi bi-house-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+                                <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div>
+                        <button type="button"
+                                className="btn btn-primary"
+                                onClick={() => {
+                                    navigate(NAV_MARKET)
                                 }}>Market
                             <br/>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -69,7 +106,7 @@ export default function ManagerRoute() {
                         <button type="button"
                                 className="btn btn-primary position-relative"
                                 onClick={() => {
-                                    navigate("/shoppingCartPage")
+                                    navigate(NAV_CART)
                                 }}>Shopping Cart
                             <br/>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -88,8 +125,10 @@ export default function ManagerRoute() {
             </nav>
 
             <Routes>
-                <Route path={"/marketPage"} element={<MarketPage onAddToCart={incrementItem}/>}/>
-                <Route path={"/shoppingCartPage"} element={<ShoppingCartPage/>}/>
+                <Route path={"*"} element={<HomePage/>}/>
+                <Route path={NAV_HOME} element={<HomePage/>}/>
+                <Route path={NAV_MARKET} element={<MarketPage onAddToCart={incrementItem}/>}/>
+                <Route path={NAV_CART} element={<ShoppingCartPage/>}/>
             </Routes>
         </div>
     )
