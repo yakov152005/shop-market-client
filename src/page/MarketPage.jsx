@@ -146,8 +146,7 @@ export default function MarketPage({onAddToCart}) {
                                         onClick={() => handleChange('decrementItem', card.id)}><strong>-</strong>
                                 </button>
                             </div>
-                            <br/><input className={"btn btn-primary"} value={itemCounts[card.id] || 0} disabled={true}
-                                        size={"1"}/>
+                            <br/><input className={"btn btn-primary"} value={itemCounts[card.id] || 0} disabled={true} size={"1"}/>
                         </ul>
                     </div>
                 ))}
