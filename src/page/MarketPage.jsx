@@ -1,14 +1,21 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {API_ADD_CARD, API_SERVER, MAX_PRICE, URL_API} from "../constants/Constant";
+import {API_ADD_CARD, API_SERVER, IMG_PATH_DEF, MAX_PRICE, URL_API} from "../constants/Constant";
 import "../css/MarketStyle.css"
+import {useLocation} from "react-router-dom";
+
 
 export default function MarketPage({onAddToCart}) {
+    const location = useLocation();
+    const value = location.state?.value || 0;
     const [allData, setAllData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [itemCounts, setItemCounts] = useState({});
 
+
+    const filteredData = value > 0 ? allData.filter((item) => item.cost <= value) : allData;
+    const generateRandomPrice = () => Math.floor(Math.random() * MAX_PRICE) + 1;
 
 
     useEffect(() => {
@@ -16,14 +23,22 @@ export default function MarketPage({onAddToCart}) {
             try {
                 const response = await axios.get(URL_API);
                 const result = await response.data;
-                const formatDataCard = result.data.map((card, index) => ({
-                    id: index,
-                    name: card.name,
-                    img: getCardImage(card),
-                    releaseDate: card.released_at,
-                    cost: price(),
-                }));
 
+                const savedPrices = JSON.parse(localStorage.getItem("cardPrices")) || {};
+
+                const formatDataCard = result.data.map((card, index) => {
+                    const price = savedPrices[index] || generateRandomPrice();
+                    savedPrices[index] = price;
+                    return {
+                        id: index,
+                        name: card.name,
+                        img: getCardImage(card),
+                        releaseDate: card.released_at,
+                        cost: price,
+                    }
+                });
+
+                localStorage.setItem("cardPrices", JSON.stringify(savedPrices));
                 setAllData(formatDataCard);
             } catch (error) {
                 console.error("Error fetching data", error);
@@ -35,7 +50,6 @@ export default function MarketPage({onAddToCart}) {
 
         fetchCardGameApi();
     }, []);
-
 
     const addToCart = async () => {
 
@@ -95,14 +109,9 @@ export default function MarketPage({onAddToCart}) {
         } else if (card.card_faces && card.card_faces.length > 0) {
             return card.card_faces[0].image_uris.small;
         } else {
-            return "https://via.placeholder.com/150";
+            return IMG_PATH_DEF;
         }
     };
-
-    const price = () => {
-        return Math.floor(Math.random() * MAX_PRICE) + 1;
-    };
-
 
     if (isLoading) {
         return (
@@ -122,13 +131,15 @@ export default function MarketPage({onAddToCart}) {
         font:"bold"
     }
 
+
+
     return (
         <div>
             <div className="alert alert-dark" role="alert">
                 <strong style={{color:"blue"}}>Welcome to the Market!</strong>
             </div>
             <div className={"div-table"}>
-                {allData.map((card) => (
+                {filteredData.map((card) => (
                     <div className={"div-all-data"} key={card.id}>
                         <ul className={"ul-all-data"}>
                             <li><strong style={valueStyle}>Name:</strong> <strong>{card.name}</strong></li>

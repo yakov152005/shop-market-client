@@ -10,6 +10,9 @@ const NAV_HOME = "/homePage";
 const NAV_MARKET = "/marketPage";
 const NAV_CART = "/shoppingCartPage";
 
+const IMG_PATH = "url('/image/backGround.png')";
+const IMG_PATH_DEF = "https://via.placeholder.com/150";
+
 const MAX_PRICE = 300;
 
 export {
@@ -17,4 +20,5 @@ export {
     MAX_PRICE
     , API_ADD_CARD, API_GET_ALL_CARDS, API_SERVER, API_GET_HOW_MANY_ITEMS,API_GET_TOTAL_PRICE_CART,
     NAV_HOME, NAV_MARKET, NAV_CART,
+    IMG_PATH,IMG_PATH_DEF,
 };

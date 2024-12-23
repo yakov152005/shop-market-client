@@ -3,10 +3,9 @@ import MarketPage from "../page/MarketPage";
 import ShoppingCartPage from "../page/ShoppingCartPage";
 import {useEffect, useState} from "react";
 import HomePage from "../page/HomePage";
-import {API_GET_HOW_MANY_ITEMS, API_SERVER, NAV_CART, NAV_HOME, NAV_MARKET} from "../constants/Constant";
+import {API_GET_HOW_MANY_ITEMS, API_SERVER, IMG_PATH, NAV_CART, NAV_HOME, NAV_MARKET} from "../constants/Constant";
 import axios from "axios";
 import NavBar from "./NavBar";
-
 
 export default function ManagerRoute() {
     const [item, setItem] = useState(0);
@@ -32,7 +31,7 @@ export default function ManagerRoute() {
 
 
     const backgroundStyle = {
-        backgroundImage: "url('/image/backGround.png')",
+        backgroundImage: IMG_PATH,
         backgroundSize: "contain",
         backgroundPosition: "top center",
         backgroundRepeat: "repeat-y",
@@ -43,6 +42,7 @@ export default function ManagerRoute() {
     return (
         <div>
             <NavBar item={item}/>
+
 
             <div style={backgroundStyle}>
                 <Routes>

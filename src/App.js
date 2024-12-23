@@ -2,9 +2,10 @@ import './App.css';
 import {BrowserRouter} from "react-router-dom";
 import ManagerRoute from "./componants/ManagerRoute";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {IMG_PATH} from "./constants/Constant";
 
 const backgroundStyle = {
-    backgroundImage: "url('/image/backGround.png')",
+    backgroundImage: IMG_PATH,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",

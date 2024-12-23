@@ -1,8 +1,25 @@
 import {NAV_CART, NAV_HOME, NAV_MARKET} from "../constants/Constant";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+
 
 export default function NavBar({item}){
     const navigate = useNavigate();
+    const[valInput,setValInput] = useState(0);
+    const[disabled,setDisabled] = useState(true);
+
+
+
+    const handleChange = (event) => {
+        setValInput(event.target.value);
+        setDisabled(false);
+    }
+
+    const handleClicked = () => {
+        navigate(NAV_MARKET, { state: { value: Number(valInput) } });
+    };
+
+
     return(
         <div>
             <nav className="navbar" style={{background: "#9f9f9f", borderRadius: "5px"}}>
@@ -10,20 +27,28 @@ export default function NavBar({item}){
                 <h1 style={{color: "blue", fontFamily: 'Brush Script MT'}}><strong>Market</strong></h1>
                 <div className="btn-group" role="group" aria-label="Basic example">
                     <div>
-                        <nav className="navbar bg-body-tertiary">
+                        <nav className="navbar bg-body-tertiary" style={{borderRadius:"5px"}}>
                             <div className="container-fluid">
-                                <form className="d-flex" role="search">
+                                <form className="d-flex" role="search" >
+                                    <strong style={{color:"blue"}}>enter cost 1-300 for filter or 0 for return</strong>
                                     <input className="form-control me-2" type="number" placeholder="Search by price"
-                                           aria-label="Search"/>
+                                           onChange={handleChange}
+                                           value={valInput}
+                                           aria-label="Search"
+                                           style={{borderRadius:"11px"}}
+                                    />
+
                                     <button className="btn btn-primary"
-                                            type="submit"
+                                            type="button"
+                                            disabled={valInput ? disabled : true}
+                                            onClick={handleClicked}
                                             style={{border: "1px solid black"}}>
                                         Search
                                     </button>
+
                                 </form>
                             </div>
                         </nav>
-
                     </div>
 
 
