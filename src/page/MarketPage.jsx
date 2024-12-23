@@ -56,6 +56,7 @@ export default function MarketPage({onAddToCart}) {
             try {
                 const response = await axios.post(API_SERVER + API_ADD_CARD,selectedItems);
                 if (response.data.success){
+                    console.log(`{success: ${response.data.success} , error: ${response.data.error}`);
                     alert("The items is added to the cart!");
                     const totalItems = Object.values(itemCounts).reduce((total, count) => total + count, 0);
                     onAddToCart(totalItems);
